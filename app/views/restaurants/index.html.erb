@@ -1,4 +1,61 @@
-<h1>トップページ</h1>
-<% @restaurants.each do |restaurant| %>
-  <p><%= restaurant.name %></p>
-<% end %>
+<div class="row">
+  <div class="col-lg-8">
+    <h2>レストラン一覧</h2>
+    <% @restaurants.each do |restaurant| %>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <strong><%= link_to restaurant.name, restaurant_path(restaurant) %></strong>
+        <span class="text-muted pull-right"><%= restaurant.created_at.strftime('%Y/%m/%d') %></span>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-sm-2">
+            <div class="thumbnail">
+              <img class="img-responsive user-photo" src="http://image1-4.tabelog.k-img.com/restaurant/images/Rvw/37351/200x200_square_37351006.jpg">
+            </div><!-- /thumbnail -->
+          </div><!-- /col-sm-1 -->
+          <div class="col-sm-10">
+            <p><%= make_star(restaurant.average_point) %> <%= restaurant.average_point %>  ［ 口コミ <%= restaurant.reviews.count %>件 ］</p>
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <% restaurant.reviews.each do |review| %>
+                  <p><%= review.title %> by <%= review.user.email %> (<%= review.user.reviews.count %>)</p>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /panel-body -->
+    </div>
+
+    <% end %>
+    <h2>新着口コミ</h2>
+    <div class="row">
+    <% Review.all.each do |review| %>
+        <div class="col-sm-2">
+          <div class="thumbnail">
+            <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+          </div><!-- /thumbnail -->
+        </div><!-- /col-sm-1 -->
+
+        <div class="col-sm-10">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <strong><%= link_to review.title, restaurant_path(review.restaurant) %></strong>
+              <span class="text-muted pull-right"><%= review.created_at.strftime('%Y/%m/%d') %></span>
+            </div>
+            <div class="panel-body">
+              <p></p>
+              <p><%= simple_format(review.body) %></p>
+            </div><!-- /panel-body -->
+          </div><!-- /panel panel-default -->
+        </div><!-- /col-sm-5 -->
+    <% end %>
+      </div><!-- /row -->
+  </div>
+
+  <div class="col-lg-4">
+    <%= render 'layouts/sidebar' %>
+  </div>
+</div>
+

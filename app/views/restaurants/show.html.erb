@@ -1,4 +1,93 @@
-<h1><%= @restaurant.name %></h1>
-<p><%= @restaurant.address %></p>
-<p><%= @restaurant.tel %></p>
-<p><%= @restaurant.url %></p>
+<div class="row">
+  <div class="col-lg-12">
+    <h1>
+      <%= @restaurant.name %>
+      <span class="pull-right"><%= @restaurant.tel %></span>
+    </h1>
+    <hr>
+    <h2>
+      <% if @restaurant.reviews.count >= 1 %>
+        <b style="color:red;">
+          <%= make_star(@restaurant.average_point) %>
+          <%= @restaurant.average_point %>
+        </b>
+      <% else %>
+        未評価
+      <% end %>
+    </h2>
+    <% if user_signed_in? %>
+      <% if current_user.reviews.where(restaurant_id: @restaurant.id).exists? %>
+        <%= link_to "レビューを編集する", edit_restaurant_review_path(@restaurant, current_user), class: "btn btn-default" %>
+      <% else %>
+        <%= link_to "レビューを登録する", new_restaurant_review_path(@restaurant), class: "btn btn-primary" %>
+      <% end %>
+    <% else %>
+      <%= link_to "ユーザー登録してレビューを投稿", new_user_registration_path, class: "btn btn-default" %>
+    <% end %>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-lg-8">
+    <% @restaurant.reviews.each do |review| %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <%= review.title %>
+            <span class="pull-right">
+              <small>訪問日：<%= review.created_at.strftime('%Y/%m/%d') %></small>
+            </span>
+          </h3>
+        </div>
+        <div class="panel-body">
+          <div class="media">
+            <div class="media-left">
+                <img class="media-object" src="http://placehold.it/20x20">
+            </div>
+            <div class="media-body">
+              <small>
+                <%= review.user.email %> <b style="color:red;">(<%= review.user.reviews.count %>)</b> さんの口コミ<br>
+                男性・東京都
+              </small>
+            </div>
+          </div>
+          <hr>
+          <h5>
+            <b style="color:red;"><%= make_star(review.rate) %> <%= review.rate %></b>
+          </h5>
+          <hr>
+          <p><%= simple_format(review.body) %></p>
+        </div>
+        <div class="panel-footer">
+          <small>利用規約に違反している口コミは、右のリンクから報告することができます。<a href="#">問題のある口コミを連絡する</a></small>
+        </div>
+      </div>
+    <% end %>
+    <div class="panel panel-default">
+      <div class="panel-heading">店舗情報</div>
+        <table class="table">
+          <tr>
+            <th>店名</th>
+            <td><%= @restaurant.name %></td>
+          </tr>
+          <tr>
+            <th>TEL・予約</th>
+            <td><%= @restaurant.tel %></td>
+          </tr>
+          <tr>
+            <th>住所</th>
+            <td><%= @restaurant.address %></td>
+          </tr>
+          <tr>
+            <th>ホームページ</th>
+            <td><%= @restaurant.url %></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  <div class="col-lg-4">
+    <%= render 'layouts/sidebar' %>
+  </div>
+</div>

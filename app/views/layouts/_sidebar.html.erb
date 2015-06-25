@@ -1,0 +1,32 @@
+<%= link_to "新しくお店を登録する", new_restaurant_path, class: "btn btn-success btn-block" %>
+<hr>
+
+<% if current_user %>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="media">
+        <div class="media-left">
+          <img class="media-object" src="http://placehold.it/100x100">
+        </div>
+        <div class="media-body">
+          <p>ようこそ <%= current_user.email %> さん</p>
+          <p>口コミ：<%= current_user.reviews.count %>件</p>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    人気のお店
+  </div>
+ <!-- List group -->
+  <ul class="list-group">
+    <li class="list-group-item">Cras justo odio</li>
+    <li class="list-group-item">Dapibus ac facilisis in</li>
+    <li class="list-group-item">Morbi leo risus</li>
+    <li class="list-group-item">Porta ac consectetur ac</li>
+    <li class="list-group-item">Vestibulum at eros</li>
+  </ul>
+</div>
