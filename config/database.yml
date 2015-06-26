@@ -20,6 +20,12 @@ test:
   <<: *default
   database: db/test.sqlite3
 
+# GMOクラウド用設定
 production:
-  <<: *default
-  database: db/production.sqlite3
+  adapter: mysql2
+  encoding: utf8
+  database: tabelog
+  port: 3306
+  username: nashirox
+  password: spartanashiro
+  host: 153.122.55.166
