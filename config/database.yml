@@ -28,4 +28,4 @@ production:
   port: 3306
   username: nashirox
   password: spartanashiro
-  host: 153.122.55.166
+  host: localhost
