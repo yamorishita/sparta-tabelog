@@ -26,6 +26,6 @@ production:
   encoding: utf8
   database: tabelog
   port: 3306
-  username: nashirox
+  username: nashirox@
   password: spartanashiro
-  host: 153.122.55.166
+  host: localhost
